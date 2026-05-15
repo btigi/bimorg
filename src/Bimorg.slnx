@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="Bimorg/Bimorg.csproj" />
+  <Project Path="bimorg-scan/bimorg-scan.csproj" />
+</Solution>
