@@ -50,6 +50,21 @@ public sealed class MapsSearchService(IDbContextFactory<AppDbContext> dbFactory)
             .ToList();
     }
 
+    public async Task<IReadOnlyList<string>> GetDistinctKeywordsAlphabeticalAsync(CancellationToken ct = default)
+    {
+        await using var db = await dbFactory.CreateDbContextAsync(ct).ConfigureAwait(false);
+
+        var words = await db.MapKeywords.AsNoTracking()
+            .Select(k => k.Word)
+            .ToListAsync(ct)
+            .ConfigureAwait(false);
+
+        return words
+            .Distinct(StringComparer.OrdinalIgnoreCase)
+            .OrderBy(w => w, StringComparer.OrdinalIgnoreCase)
+            .ToList();
+    }
+
     private static List<string> SplitKeywordTerms(string? raw)
     {
         if (string.IsNullOrWhiteSpace(raw))

@@ -55,9 +55,13 @@
 
     <StackPanel DockPanel.Dock="Top" Margin="0,0,0,10">
       <TextBlock Margin="0,0,0,6"
-                 FontWeight="SemiBold"
-                 Foreground="{DynamicResource MahApps.Brushes.ThemeForeground}"
-                 Text="Keywords" />
+                 Foreground="{DynamicResource MahApps.Brushes.ThemeForeground}">
+        <Hyperlink Click="HeaderKeywords_LinkClick"
+                   Foreground="{DynamicResource MahApps.Brushes.ThemeForeground}"
+                   TextDecorations="Underline">
+          <Run FontWeight="SemiBold" Text="Keywords" />
+        </Hyperlink>
+      </TextBlock>
       <DockPanel Margin="0,0,0,10">
         <StackPanel DockPanel.Dock="Right"
                     Orientation="Horizontal"

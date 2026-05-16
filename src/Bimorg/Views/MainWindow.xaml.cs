@@ -1,4 +1,6 @@
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Documents;
 using System.Windows.Input;
 using Bimorg.ViewModels;
 
@@ -34,6 +36,24 @@ public partial class MainWindow : Window
         {
             _vm.StatusLine = "Initial load failed: " + ex.Message;
         }
+    }
+
+    private async void HeaderKeywords_LinkClick(object sender, RoutedEventArgs e)
+    {
+        try
+        {
+            _vm.StatusLine = "Loading keywords…";
+            var words = await _vm.GetDistinctKeywordsAlphabeticalAsync().ConfigureAwait(true);
+            _vm.StatusLine = "Ready.";
+            var w = new KeywordsBrowseWindow(_vm, words, "all maps") { Owner = this };
+            w.Show();
+        }
+        catch (Exception ex)
+        {
+            _vm.StatusLine = "Could not load keywords: " + ex.Message;
+        }
+
+        e.Handled = true;
     }
 
     private void Thumbnail_OnMouseDoubleClick(object sender, MouseButtonEventArgs e)

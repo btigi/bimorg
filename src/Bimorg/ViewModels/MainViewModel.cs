@@ -59,6 +59,9 @@ public partial class MainViewModel : ObservableObject
         }
     }
 
+    public Task<IReadOnlyList<string>> GetDistinctKeywordsAlphabeticalAsync(CancellationToken ct = default) =>
+        _search.GetDistinctKeywordsAlphabeticalAsync(ct);
+
     [RelayCommand(CanExecute = nameof(CanOpenMap))]
     private void OpenMap(MapTileVm? tile)
     {
@@ -89,6 +92,36 @@ public partial class MainViewModel : ObservableObject
     {
         KeywordsFilter = "";
         _ = RefreshSearchAsync();
+    }
+
+    public void AppendKeywordToSearch(string rawWord)
+    {
+        var word = rawWord.Trim().ToLowerInvariant();
+        if (word.Length == 0)
+            return;
+
+        foreach (var existing in EnumerateDistinctSearchTerms(KeywordsFilter))
+        {
+            if (string.Equals(existing, word, StringComparison.Ordinal))
+                return;
+        }
+
+        var cur = KeywordsFilter.TrimEnd();
+        KeywordsFilter = string.IsNullOrEmpty(cur) ? word : $"{cur} {word}";
+    }
+
+    private static IEnumerable<string> EnumerateDistinctSearchTerms(string? raw)
+    {
+        if (string.IsNullOrWhiteSpace(raw))
+            yield break;
+
+        foreach (var s in raw.Split([' ', ',', ';'], StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries))
+        {
+            if (s.Length == 0)
+                continue;
+
+            yield return s.ToLowerInvariant();
+        }
     }
 
     partial void OnKeywordsFilterChanged(string value) => DebounceKeywords();

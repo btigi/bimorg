@@ -1,0 +1,25 @@
+<Window x:Class="Bimorg.Views.KeywordsBrowseWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        mc:Ignorable="d"
+        Title="Keywords"
+        Width="340"
+        Height="460"
+        MinWidth="260"
+        MinHeight="240"
+        ShowInTaskbar="False"
+        WindowStartupLocation="CenterOwner"
+        TextElement.Foreground="{DynamicResource MahApps.Brushes.ThemeForeground}">
+  <DockPanel Margin="14">
+    <TextBlock DockPanel.Dock="Bottom"
+               Margin="0,10,0,0"
+               TextWrapping="Wrap"
+               Foreground="{DynamicResource MahApps.Brushes.Gray7}"
+               Text="Double-click a keyword to add it to the search box." />
+    <ListBox x:Name="KeywordsList"
+             BorderBrush="{DynamicResource MahApps.Brushes.Gray6}"
+             MouseDoubleClick="KeywordsList_OnMouseDoubleClick" />
+  </DockPanel>
+</Window>
